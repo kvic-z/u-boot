@@ -61,3 +61,11 @@ int arch_cpu_init(void)
 
 	return 0;
 }
+
+int board_late_init(void)
+{
+	setup_boot_mode();
+
+	return 0;
+}
+

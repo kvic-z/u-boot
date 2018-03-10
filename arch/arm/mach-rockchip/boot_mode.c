@@ -4,6 +4,7 @@
  * SPDX-License-Identifier:     GPL-2.0+
  */
 
+#define DEBUG
 #include <common.h>
 #include <adc.h>
 #include <asm/io.h>
@@ -72,7 +73,6 @@ int setup_boot_mode(void)
 	char env_preboot[256] = {0};
 
 	rockchip_dnl_mode_check();
-
 	reg = (void *)CONFIG_ROCKCHIP_BOOT_MODE_REG;
 
 	boot_mode = readl(reg);

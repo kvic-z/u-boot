@@ -12,6 +12,7 @@ config TARGET_EVB_RK3328
 
 config TARGET_ROC_RK3328_CC
 	bool "ROC-RK3328-CC board, "
+	select BOARD_LATE_INIT
 	help
   	  ROC-RK3328-CC is a Raspberry Pi-2 sized 4K60P HDR Media Board Computer
   	  powered by Rockchip RK3328 Quad-Core ARM Cortex A53 64-Bit Processor
