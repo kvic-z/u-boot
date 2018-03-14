@@ -38,7 +38,7 @@
 		compatible = "regulator-fixed";
 		enable-active-high;
 		regulator-name = "vcc5v0_host_xhci";
-		gpio = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio0 26 GPIO_ACTIVE_HIGH>;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 	};
@@ -109,8 +109,10 @@
 };
 
 &usb_host0_xhci {
-	vbus-supply = <&vcc5v0_host_xhci>;
+	//vbus-supply = <&vcc5v0_host_xhci>;
+	vbus-supply = <&vcc5v0_otg>;
 	status = "okay";
+	maximum-speed = "high-speed";
 };
 
 &i2c1 {
@@ -136,6 +138,14 @@
 
 		pwrkey {
 			status = "okay";
+		};
+
+		led1 {
+			label = "standby";
+		};
+
+		led2 {
+			label = "power";
 		};
 
 		regulators {
