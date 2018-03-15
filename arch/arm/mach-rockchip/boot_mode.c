@@ -58,20 +58,21 @@ void rockchip_blink_power(int times)
 {
 		for (int i = 0; i < times; ++i) {
 			cli_simple_run_command("led power off", 0);
-			mdelay(100);
+			mdelay(200);
 			cli_simple_run_command("led power on", 0);
-			mdelay(100);
+			mdelay(200);
 		}
 }
 
 int rockchip_dnl_mode(int num_modes)
 {
 	int mode = 0;
+    const char *modeStr[5] = {" ", "UMS", "Fastboot", "Download", "Maskrom"};
 
 	while(mode < num_modes) {
 		++mode;
 
-		printf("rockchip_dnl_mode = %d mode\n", mode);
+		printf("rockchip_dnl_mode = %s mode\n", modeStr[mode]);
 		rockchip_blink_power(mode);
 
 		// return early
@@ -80,16 +81,16 @@ int rockchip_dnl_mode(int num_modes)
 		}
 
 		// wait 2 seconds
-		for (int i = 0; i < 100; ++i) {
+		for (int i = 0; i < 120; ++i) {
 			if (!rockchip_dnl_key_pressed()) {
 				goto end;
 			}
-			mdelay(20);
+			mdelay(10);
 		}
 	}
 
 end:
-	cli_simple_run_command("led power off", 0);
+	cli_simple_run_command("led power on", 0);
 	cli_simple_run_command("led standby on", 0);
 	return mode;
 }
@@ -97,7 +98,7 @@ end:
 void rockchip_dnl_mode_check(void)
 {
 	if (!rockchip_dnl_key_pressed()) {
-		return 0;
+		return;
 	}
 
 	switch(rockchip_dnl_mode(4)) {
@@ -113,13 +114,12 @@ void rockchip_dnl_mode_check(void)
 	case 2:
 		printf("entering fastboot mode...\n");
 		cli_simple_run_command("mmc dev 0; fastboot usb 0", 0);
-		cli_simple_run_command("mmc dev 1; fastboot usb 0", 0);
 		break;
 
 	case 3:
 		printf("entering download mode...\n");
 		cli_simple_run_command("rockusb 0 mmc 0", 0);
-		//cli_simple_run_command("rockusb 0 mmc 1", 0);
+		cli_simple_run_command("rockusb 0 mmc 1", 0);
 		break;
 
 	case 4:
