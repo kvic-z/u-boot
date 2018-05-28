@@ -11,3 +11,11 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+int rk_board_late_init(void)
+{
+	printf("roc-rk3328-cc late init ...\n");
+
+   	if (!env_get("fdtfile"))
+   		env_set("fdtfile", "rk3328-roc-cc.dtb");
+}
+
